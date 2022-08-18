@@ -7,20 +7,26 @@
 
   let playersPoints = [];
 
+  //*HTML References
   const orderBtn = document.querySelector("#btn_order"),
     stopBtn = document.querySelector("#btn_stop"),
     newGameBtn = document.querySelector("#btn_newgame");
 
-  const divPlayerCards = document.querySelector("#player-cards"),
-    divComputerCards = document.querySelector("#computer-cards"),
-    impressPoints = document.querySelectorAll("small");
+  const divPlayerCards = document.querySelectorAll(".divCards"),
+    impressPointsHTML = document.querySelectorAll("small");
 
   //? This function initializes the game
   const startingGame = (playersNum = 2) => {
     deck = createDeck();
-    for (let i = 0; i > playersNum; i++) {
+    playersPoints = [];
+    for (let i = 0; i < playersNum; i++) {
       playersPoints.push(0);
     }
+    impressPointsHTML.forEach((elem) => (elem.innerText = 0));
+    divPlayerCards.forEach((elem) => (elem.innerHTML = ""));
+
+    orderBtn.disabled = false;
+    stopBtn.disabled = false;
   };
 
   //? Creating a deck
@@ -35,7 +41,7 @@
   };
 
   //? This function allows you to order a card
-  const orderCards = () => {
+  const orderCard = () => {
     if (deck.length === 0) {
       // eslint-disable-next-line no-throw-literal
       throw "No cards in the deck";
@@ -52,59 +58,59 @@
   //? Collecting points -- turn: 0 = first player and the lastest is the computer
   const collectPoints = (card, turn) => {
     playersPoints[turn] = playersPoints[turn] + cardValue(card);
-    impressPoints[turn].innerText = playersPoints[turn];
+    impressPointsHTML[turn].innerText = playersPoints[turn];
+    return playersPoints[turn];
   };
 
-  //! The computer's turn
-  const computersTurn = (minimumPoints) => {
-    do {
-      const card = orderCards();
-collectPoints()
+  const createCard = (card, turn) => {
+    const cardImg = document.createElement("img");
+    cardImg.src = `assets/cards/${card}.png`;
+    cardImg.classList.add("cards");
+    divPlayerCards[turn].append(cardImg);
+  };
 
-      const cardImg = document.createElement("img");
-      cardImg.src = `assets/cards/${card}.png`;
-      cardImg.classList.add("cards");
-      divComputerCards.append(cardImg);
-
-      if (minimumPoints > 21) {
-        break;
-      }
-    } while (computerPoints < minimumPoints && minimumPoints <= 21);
-
+  const determineTheWinner = () => {
+    const [minimumPoints, computerPoints] = playersPoints;
     setTimeout(() => {
       if (computerPoints === minimumPoints) {
         alert("Nobodys win");
       } else if (minimumPoints > 21) {
         alert("Computers win");
       } else if (computerPoints > 21) {
-        alert("Computers lost");
+        alert("Player win");
       } else {
         alert("Computers win");
       }
-    }, 10);
+    }, 100);
   };
 
-  //*The player's turn
+  //! The computer's turn
+  const computersTurn = ( minimumPoints ) => {
+    let computerPoints = 0;
+    do {
+      const card = orderCard();
+      computerPoints = collectPoints(card, playersPoints.length - 1);
+      createCard(card, playersPoints.length - 1);
+    } while ((computerPoints < minimumPoints) && (minimumPoints <= 21));
+    determineTheWinner();
+  };
+
+  //* The player's turn
   orderBtn.addEventListener("click", () => {
-    const card = orderCards();
-    playerPoints = playerPoints + cardValue(card);
-    console.log(playerPoints);
+    const card = orderCard();
+    const playerPoints = collectPoints(card, 0);
 
-    impressPoints[0].innerText = playerPoints;
-
-    const cardImg = document.createElement("img");
-    cardImg.src = `assets/cards/${card}.png`;
-    cardImg.classList.add("cards");
-    divPlayerCards.append(cardImg);
+    createCard(card, 0);
 
     if (playerPoints > 21) {
       orderBtn.disabled = true;
       stopBtn.disabled = true;
-
       computersTurn(playerPoints);
+
     } else if (playerPoints === 21) {
       orderBtn.disabled = true;
       stopBtn.disabled = true;
+      computersTurn(playerPoints); 
     }
   });
 
@@ -112,21 +118,11 @@ collectPoints()
     orderBtn.disabled = true;
     stopBtn.disabled = true;
 
-    computersTurn(playerPoints);
+    computersTurn(playersPoints[0]);
   });
 
   //? Creating a deck
   newGameBtn.addEventListener("click", () => {
-    deck = createDeck();
-    playerPoints = 0;
-    computerPoints = 0;
-    impressPoints[0].innerText = 0;
-    impressPoints[1].innerText = 0;
-
-    divComputerCards.innerHTML = "";
-    divPlayerCards.innerHTML = "";
-
-    orderBtn.disabled = false;
-    stopBtn.disabled = false;
+    startingGame();
   });
 })();

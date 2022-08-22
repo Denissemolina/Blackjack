@@ -1,0 +1,14 @@
+{
+  "folders": [
+	{
+		"path": "..\\..\\.."
+	},
+	{
+		"name": "Blackjack",
+		"path": "..\\..\\..\\Blackjack"
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "blackjack"
+  }
+}

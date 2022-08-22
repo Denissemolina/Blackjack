@@ -10,8 +10,8 @@
   //*HTML References
   const orderBtn = document.querySelector("#btn_order"),
     stopBtn = document.querySelector("#btn_stop"),
-    newGameBtn = document.querySelector("#btn_newgame");
-
+    newGameBtn = document.querySelector("#btn_newgame"),
+    theWinner = document.querySelector("#theWinner");
   const divPlayerCards = document.querySelectorAll(".divCards"),
     impressPointsHTML = document.querySelectorAll("small");
 
@@ -73,25 +73,37 @@
     const [minimumPoints, computerPoints] = playersPoints;
     setTimeout(() => {
       if (computerPoints === minimumPoints) {
-        alert("Nobodys win");
+        const winner = document.createElement("div");
+        winner.textContent = "Nobody won";
+       // winner.classList.add("alert alert-success");
+        theWinner.append(winner);
       } else if (minimumPoints > 21) {
-        alert("Computers win");
+        const winner = document.createElement("div");
+        winner.textContent = "Computers win";
+      //  winner.classList.add("alert alert-success");
+        theWinner.append(winner);
       } else if (computerPoints > 21) {
-        alert("Player win");
+        const winner = document.createElement("div");
+        winner.textContent = "Players win";
+       // winner.classList.add("alert alert-success");
+        theWinner.append(winner);
       } else {
-        alert("Computers win");
+        const winner = document.createElement("div");
+        winner.textContent = "Computers win";
+        //winner.classList.add("alert alert-success");
+        theWinner.append(winner);
       }
     }, 100);
   };
 
   //! The computer's turn
-  const computersTurn = ( minimumPoints ) => {
+  const computersTurn = (minimumPoints) => {
     let computerPoints = 0;
     do {
       const card = orderCard();
       computerPoints = collectPoints(card, playersPoints.length - 1);
       createCard(card, playersPoints.length - 1);
-    } while ((computerPoints < minimumPoints) && (minimumPoints <= 21));
+    } while (computerPoints < minimumPoints && minimumPoints <= 21);
     determineTheWinner();
   };
 
@@ -106,11 +118,10 @@
       orderBtn.disabled = true;
       stopBtn.disabled = true;
       computersTurn(playerPoints);
-
     } else if (playerPoints === 21) {
       orderBtn.disabled = true;
       stopBtn.disabled = true;
-      computersTurn(playerPoints); 
+      computersTurn(playerPoints);
     }
   });
 

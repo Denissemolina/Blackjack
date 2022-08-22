@@ -12,6 +12,8 @@
       integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
       crossorigin="anonymous"
     />
+
+    <link rel="icon" href="assets/cards/pokercard.png" />
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
@@ -19,12 +21,8 @@
     <div class="row mt-2">
       <div class="col text-center">
         <button id="btn_newgame" class="btn btn-danger">New game</button>
-        <button id="btn_order" class="btn btn-primary">
-          Order card
-        </button>
-        <button id="btn_stop"  class="btn btn-primary">
-          Stop
-        </button>
+        <button id="btn_order" class="btn btn-primary">Order card</button>
+        <button id="btn_stop" class="btn btn-primary">Stop</button>
       </div>
     </div>
 
@@ -34,6 +32,8 @@
         <div id="player-cards" class="divCards"></div>
       </div>
     </div>
+
+    <div id="theWinner" class="alert alert-success" role="alert"></div>
 
     <div class="row container mt-3">
       <div class="col">

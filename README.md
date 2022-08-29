@@ -1,8 +1,10 @@
 # Blackjack game
 
-This project is a practice of the famous BlackJack game, made with Vanila JavaScript and HTML, styled with CSS and Bootstrap.
+This project is made with Vanila JavaScript and HTML, styled with CSS and Bootstrap.
 
-View a demo here: (https://github.com/facebook/create-react-app).
+You can play here :point_right: https://denissemolina.github.io/Blackjack/src/.
+
+![Blackjack game](/src/assets/cards/blackjack.JPG)
 
 
 

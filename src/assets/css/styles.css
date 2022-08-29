@@ -9,10 +9,10 @@ body {
   background-color: black;
   color: whitesmoke;
   padding: 20px;
-  font-size: 30px;
+  font-size: 25px;
 }
 .cards {
-  width: 150px;
+  width: 120px;
   position: relative;
   left: 100px;
   margin-left: -75px;
@@ -20,4 +20,10 @@ body {
 #player-cards,
 #computer-cards {
   height: 240px;
+}
+#theWinner {
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: 600;
 }

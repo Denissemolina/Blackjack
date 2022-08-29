@@ -2,12 +2,10 @@
   "use strict";
 
   let deck = [];
-  const types = ["C", "D", "H", "S"],
-    specialCards = ["A", "J", "Q", "K"];
-
+  const types = ["C", "D", "H", "S"];
   let playersPoints = [];
 
-  //*HTML References
+  // HTML References
   const orderBtn = document.querySelector("#btn_order"),
     stopBtn = document.querySelector("#btn_stop"),
     newGameBtn = document.querySelector("#btn_newgame"),
@@ -15,8 +13,12 @@
   const divPlayerCards = document.querySelectorAll(".divCards"),
     impressPointsHTML = document.querySelectorAll("small");
 
-  //? This function initializes the game
+  // This function initializes the game
   const startingGame = (playersNum = 2) => {
+    while (theWinner.firstChild) {
+      theWinner.removeChild(theWinner.firstChild);
+    }
+
     deck = createDeck();
     playersPoints = [];
     for (let i = 0; i < playersNum; i++) {
@@ -29,7 +31,7 @@
     stopBtn.disabled = false;
   };
 
-  //? Creating a deck
+  // Creating a deck
   const createDeck = () => {
     deck = [];
     for (let i = 2; i <= 10; i++) {
@@ -40,22 +42,21 @@
     return _.shuffle(deck);
   };
 
-  //? This function allows you to order a card
+  // This function allows you to order a card
   const orderCard = () => {
     if (deck.length === 0) {
-      // eslint-disable-next-line no-throw-literal
       throw "No cards in the deck";
     }
     return deck.pop();
   };
 
-  //? This function is used to obtain the value of the card
+  // This function is used to obtain the value of the card
   const cardValue = (card) => {
     const value = card.substring(0, card.length - 1);
     return isNaN(value) ? (value === "A" ? 11 : 10) : value * 1;
   };
 
-  //? Collecting points -- turn: 0 = first player and the lastest is the computer
+  // Collecting points -- turn: 0 = first player and the lastest is the computer
   const collectPoints = (card, turn) => {
     playersPoints[turn] = playersPoints[turn] + cardValue(card);
     impressPointsHTML[turn].innerText = playersPoints[turn];
@@ -74,29 +75,25 @@
     setTimeout(() => {
       if (computerPoints === minimumPoints) {
         const winner = document.createElement("div");
-        winner.textContent = "Nobody won";
-       // winner.classList.add("alert alert-success");
+        winner.textContent = "Nobody won, play again! ♠️🃏";
         theWinner.append(winner);
       } else if (minimumPoints > 21) {
         const winner = document.createElement("div");
-        winner.textContent = "Computers win";
-      //  winner.classList.add("alert alert-success");
+        winner.textContent = "Computer won 💻🏆";
         theWinner.append(winner);
       } else if (computerPoints > 21) {
         const winner = document.createElement("div");
-        winner.textContent = "Players win";
-       // winner.classList.add("alert alert-success");
+        winner.textContent = "Player wins 🥳🎉!";
         theWinner.append(winner);
       } else {
         const winner = document.createElement("div");
-        winner.textContent = "Computers win";
-        //winner.classList.add("alert alert-success");
+        winner.textContent = "Computer won 💻🎉";
         theWinner.append(winner);
       }
     }, 100);
   };
 
-  //! The computer's turn
+  // The computer's turn
   const computersTurn = (minimumPoints) => {
     let computerPoints = 0;
     do {
@@ -107,7 +104,7 @@
     determineTheWinner();
   };
 
-  //* The player's turn
+  // The player's turn
   orderBtn.addEventListener("click", () => {
     const card = orderCard();
     const playerPoints = collectPoints(card, 0);
@@ -132,7 +129,7 @@
     computersTurn(playersPoints[0]);
   });
 
-  //? Creating a deck
+  // Creating a deck
   newGameBtn.addEventListener("click", () => {
     startingGame();
   });
